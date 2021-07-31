@@ -1,33 +1,39 @@
 import { useContext } from "react";
-import io from 'socket.io-client'
+import io from "socket.io-client";
 
 import { GameContext } from "../state/context";
 
 export const useGameState = () => {
-  function connect (){
-    io.connect("http://localhost:3650/")
-    io.emit("join_room", 'test');
-  }
-  function joinRoom (){
-    
-  }
-  return{
-    connect,
-    joinRoom
-  }
-
-  
-}
-
-export const useBoardState = () => {
-  const { boardState, setBoardState, turnState } = useContext(GameContext);
+  const { gameState } = useContext(GameContext);
+  const { updateBoardState, checkForWin } = useBoardState();
+  const { switchTurn, turnState } = useTurnState();
+  const { emitPlay } = useWebSocket(play);
 
   function play(index) {
+    updateBoardState(index, turnState);
+    checkForWin(index); 
+    if (gameState.online === true) {
+      emitPlay("test", index, turnState);
+    }
+    switchTurn();
+  }
+
+  return {
+    play,
+  };
+};
+
+export const useBoardState = () => {
+  const { boardState, setBoardState } = useContext(GameContext);
+  const { turnState} = useTurnState()
+
+  function updateBoardState(index, letter) {
+    console.log("updates")
     setBoardState({
       type: "PLAY",
       payload: {
         index: index,
-        letter: turnState,
+        letter: letter
       },
     });
   }
@@ -60,8 +66,7 @@ export const useBoardState = () => {
   }
   return {
     boardState,
-    play,
-    setBoardState,
+    updateBoardState,
     checkForWin,
   };
 };
@@ -70,14 +75,52 @@ export function useTurnState() {
   const { turnState, setTurnState } = useContext(GameContext);
   function switchTurn() {
     setTimeout(() => {
+      console.log("switched")
+      console.log(turnState)
       setTurnState({
         type: "SWITCH TURN",
       });
     }, 0);
   }
 
+  function updateTurn(letter){
+    setTurnState({
+      type: "UPDATE TURN",
+      payload:{letter}
+    });
+  }
+
   return {
     turnState,
     switchTurn,
+    updateTurn
+  };
+}
+let socket;
+export function useWebSocket(play) {
+  // const { play } = useGameState();
+  const {updateBoardState, boardState, checkForWin} = useBoardState()
+  const {switchTurn, turnState, updateTurn} = useTurnState()
+  
+  function connect() {
+    socket = io("http://localhost:3650/");
+  }
+  function joinRoom() {
+    socket.emit("join_room", "test");
+    socket.on("receivePlay", (data) => {
+      console.log(data)
+      updateBoardState(data.index, data.letter)
+      checkForWin(data.index); 
+      updateTurn(data.letter);
+    });
+  }
+  function emitPlay(room, index, letter) {
+    socket.emit("sendPlay", { room, index, letter});
+  }
+
+  return {
+    connect,
+    joinRoom,
+    emitPlay,
   };
 }

@@ -2,12 +2,12 @@ import Cells from "./components/Cells";
 
 import { useStyles } from "./styles";
 
-import { useBoardState, useGameState } from "../../hooks";
+import { useBoardState, useWebSocket } from "../../hooks";
 
 function GameBoard() {
   const classes = useStyles();
   const { boardState } = useBoardState();
-  const { connect, joinRoom } = useGameState();
+  const { connect, joinRoom } = useWebSocket();
   return (
     <div>
       <button

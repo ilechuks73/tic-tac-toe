@@ -4,7 +4,7 @@ import { GameContext } from "./context";
 function Store(props) {
  const initialBoardState = ["", "", "", "", "", "", "", "", ""];
  const initialTurnState = ["X", "O"][Math.round(Math.random())];
- const initialGameState = {active: false, numberOfRounds: undefined, players:[], }
+ const initialGameState = {active: false, online:true, numberOfRounds: undefined, players:[], }
 
  const [boardState, setBoardState] = useReducer(reducer, initialBoardState);
  const [turnState, setTurnState] = useReducer(reducer, initialTurnState);
@@ -23,6 +23,10 @@ const [gameState, setGameState] = useReducer(reducer, initialGameState)
     } else if (state === "O") {
      state = "X";
     }
+    return state;
+
+    case "UPDATE TURN":
+    state = payload.letter
     return state;
 
    default:

@@ -1,21 +1,14 @@
 import { useStyles } from "./styles";
-import { useBoardState, useTurnState } from "../../../../hooks";
+import { useGameState } from "../../../../hooks";
 
 function Cells(props) {
   const classes = useStyles();
-  const { play, checkForWin } = useBoardState();
-  const { switchTurn } = useTurnState();
+  const { play } = useGameState();
   return (
     <div
       className={classes.Cells}
       onClick={() => {
-        if (props.state === "") {
-          play(props.index);
-          checkForWin(props.index);
-          switchTurn();
-        } else {
-          return false;
-        }
+        play(props.index);
       }}
     >
       {props.state}
