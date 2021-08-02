@@ -3,7 +3,7 @@ import { useGameState } from "../../../../hooks";
 
 function Cells(props) {
   const classes = useStyles();
-  const { play } = useGameState();
+  const { play, gameState } = useGameState();
   return (
     <div
       className={classes.Cells}
@@ -11,7 +11,7 @@ function Cells(props) {
         play(props.index);
       }}
     >
-      {props.state}
+      {}
     </div>
   );
 }

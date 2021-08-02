@@ -1,26 +1,28 @@
-import { GameBoard, ScoreBoard } from "./components";
+import { GameScreen, WelcomeScreen, LobbyScreen } from "./components";
 import Store from "./state/store";
 
-import { useTurnState } from "./hooks";
+import { useGameState } from "./hooks";
 
 function App() {
- return (
-  <div className="App">
-   <Store>
-    <Header />
-    <GameBoard />
-    <ScoreBoard />
-   </Store>
-  </div>
- );
+  return (
+    <div className="App">
+      <Store>
+        <WelcomeScreen />
+        <LobbyScreen />
+        <Header />
+        <GameScreen />
+      </Store>
+    </div>
+  );
 }
 
 function Header() {
- const { turnState } = useTurnState();
- return (<div>
-   <h1>{`${turnState}'s turn`}</h1>
- </div>
- );
+  const { turnState } = useGameState();
+  return (
+    <div>
+      {/* <h1>{`${turnState}'s turn`}</h1> */}
+    </div>
+  );
 }
 
 export default App;

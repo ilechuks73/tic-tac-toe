@@ -1,7 +1,9 @@
-import GameBoard from "./GameBoard"
-import ScoreBoard from "./ScoreBoard"
+import GameScreen from "./GameScreen"
+import WelcomeScreen from "./WelcomeScreen"
+import LobbyScreen from "./LobbyScreen"
 
 export {
-  GameBoard,
-  ScoreBoard
+  GameScreen,
+  WelcomeScreen,
+  LobbyScreen
 }
