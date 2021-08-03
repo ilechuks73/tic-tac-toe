@@ -14,15 +14,23 @@ import { mergeClasses } from "@material-ui/styles";
 
 function LobbyScreen() {
   const classes = useStyles()
-  const {gameState} = useGameState()
-  return (
-    <div className={classes.LobbyScreen}>
-      <Grow in={gameState.screens.lobbyScreen}  timeout={800}>
-        <MuiGrid>
 
+  const {gameState} = useGameState()
+
+  return (
+    <MuiGrid className={classes.LobbyScreen}>
+
+      <Grow in={gameState.screens.lobbyScreen}  timeout={800}>
+
+        <MuiGrid >
+          <MuiGrid container={true}  >
+            <input type="text"/>
+          </MuiGrid>
         </MuiGrid>
+
       </Grow>
-    </div>
+
+    </MuiGrid>
   )
   
   function playersSection() {
