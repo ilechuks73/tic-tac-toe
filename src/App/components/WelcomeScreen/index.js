@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { useStyles } from "./styles";
-import { useGameState } from "../../hooks";
+import { useGameState, useNavigation } from "../../hooks";
 
 import {
   Typography as MuiTypography,
@@ -31,7 +31,8 @@ function handleClick(setTabValues, value) {
 export default function WelcomeScreen() {
   const classes = useStyles();
   const [tabValues, setTabValues] = useState(0);
-  const { gameState, startGame, goToLobby } = useGameState();
+  const { gameState, startGame } = useGameState();
+  const {goToLobbyScreen} = useNavigation()
   const [formState, setFormState] = useState({ offline: true });
 
   return (
@@ -171,7 +172,9 @@ export default function WelcomeScreen() {
             label="select number of rows"
             inputProps={{ min: "1", max: "6" }}
           />
-          <MuiButton size={"small"} variant={"outlined"}>
+          <MuiButton size={"small"} variant={"outlined"} onClick={()=>{
+            goToLobbyScreen()
+          }}>
             Create Room
           </MuiButton>
           <MuiTypography>{"Room Code: XXXX-XXXX"}</MuiTypography>
@@ -192,7 +195,9 @@ export default function WelcomeScreen() {
             variant="outlined"
           />
 
-          <MuiButton size={"small"} variant={"outlined"}>
+          <MuiButton size={"small"} variant={"outlined"}onClick={()=>{
+            goToLobbyScreen()
+          }}>
             Join Room
           </MuiButton>
         </MuiGrid>

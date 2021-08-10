@@ -15,19 +15,42 @@ export const useGameState = () => {
 
   function play(index) {}
 
-  function goToLobby(){
-    setGameState({
-      type: "GO TO LOBBY"
-    })
-  }
+  
 
   return {
     play,
     startGame,
-    gameState,
-    goToLobby
+    gameState
   };
 };
+
+export const useNavigation =  ()=>{
+  const { gameState, setGameState } = useContext(GameContext);
+
+  function goToWelcomeScreen(){
+    setGameState({
+      type: "GO TO WELCOMESCREEN"
+    })
+  }
+
+  function goToLobbyScreen(){
+    setGameState({
+      type: "GO TO LOBBYSCREEN"
+    })
+  }
+
+  function goToGameScreen(){
+    setGameState({
+      type: "GO TO GAMESCREEN"
+    })
+  }
+
+  return {
+    goToWelcomeScreen,
+    goToLobbyScreen,
+    goToGameScreen,
+  }
+}
 
 // export const useBoardState = () => {
 //   const { boardState, setBoardState } = useContext(GameContext);

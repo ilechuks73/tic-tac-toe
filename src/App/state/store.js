@@ -34,8 +34,8 @@ function Store(props) {
     players: [],
     spectators:[],
     screens:{
-      welcomeScreen: false,
-      lobbyScreen: true,
+      welcomeScreen: true,
+      lobbyScreen: false,
       gameScreen: false
     }
   };
@@ -51,13 +51,11 @@ function Store(props) {
   function reducer(state, { type, payload }) {
     
     switch (type) {
-      case "GO TO LOBBY":
-        state.screens = {
-          welcomeScreen: false,
-          lobbyScreen: true,
-          gameScreen: false,
-        }
-        return {...state};
+
+      case "INITIALIZE STATE":
+
+      return {...state};
+
       case "START GAME":
         state.active = true
         return {...state};
@@ -77,6 +75,34 @@ function Store(props) {
       case "UPDATE TURN":
         state = payload.letter;
         return state;
+
+        //---NAVIGATION---//
+
+      case "GO TO WELCOMESCREEN":
+        state.screens = {
+          welcomeScreen: true,
+          lobbyScreen: false,
+          gameScreen: false,
+        }
+        return {...state};
+
+      case "GO TO LOBBYSCREEN":
+        state.screens = {
+          welcomeScreen: false,
+          lobbyScreen: true,
+          gameScreen: false,
+        }
+        return {...state};
+
+      case "GO TO GAMESCREEN":
+      state.screens = {
+        welcomeScreen: false,
+        lobbyScreen: false,
+        gameScreen: true,
+      }
+      return {...state};
+
+      
 
       default:
         return state;
