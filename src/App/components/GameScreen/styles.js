@@ -10,6 +10,7 @@ export const useStyles = makeStyles({
       right: 0,
       "& > div:nth-child(2)":{
         //board wrapper styling here, dont go any deeper
+        paddingTop: "20px"
       },
       
     }
@@ -17,7 +18,9 @@ export const useStyles = makeStyles({
 
   Header:{
     backgroundColor: "purple",
-    padding: "5px 0"
+    padding: "8px 0",
+    "& > div:nth-child(2)":{
+    }
   },
   Board: {
     width: "200px",

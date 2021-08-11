@@ -44,16 +44,16 @@ function Header() {
       <MuiGrid>
         <MuiTypography>active</MuiTypography>
       </MuiGrid>
-      <MuiGrid>
-        <MuiGrid container>
-          <MuiGrid>
-            <MuiTypography>Player1</MuiTypography>
-          </MuiGrid>
-          <MuiGrid>
-            <MuiTypography>Player2</MuiTypography>
-          </MuiGrid>
+      <MuiGrid xs={4} container={true} justify={"space-between"} item={true}>
+        <MuiGrid item={true}>
+          <MuiTypography>Player1</MuiTypography>
+          <MuiTypography align={"center"}>2</MuiTypography>
         </MuiGrid>
-
+        <MuiTypography>{"|"}</MuiTypography>
+        <MuiGrid>
+          <MuiTypography>Player2</MuiTypography>
+          <MuiTypography align={"center"}>8</MuiTypography>
+        </MuiGrid>
       </MuiGrid>
       <MuiGrid>
         <MuiButton color={"secondary"} variant={"contained"}>Leave</MuiButton>
@@ -83,5 +83,13 @@ function Board() {
       </div>
     </MuiGrid>
   );
+}
+
+function Footer() {
+  return (
+    <div>
+      
+    </div>
+  )
 }
 
