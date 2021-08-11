@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useStyles } from './styles'
-import { useGameState } from "../../hooks";
+import { useGameState, useNavigation } from "../../hooks";
 
 import {
   Typography as MuiTypography,
@@ -16,6 +16,7 @@ function LobbyScreen() {
   const classes = useStyles()
 
   const { gameState } = useGameState()
+  const {goToGameScreen} = useNavigation()
 
   return (
     <MuiGrid className={classes.LobbyScreen}>
@@ -27,7 +28,9 @@ function LobbyScreen() {
             <MuiGrid xs={9} item={true}>
               <PlayersSection />
               <SpectatorsSection />
-              <MuiButton variant={"contained"}>
+              <MuiButton variant={"contained"} onClick={()=>{
+                goToGameScreen()
+              }}>
                 Start
               </MuiButton>
             </MuiGrid>
@@ -39,20 +42,30 @@ function LobbyScreen() {
   )
 
   function PlayersSection() {
+    const classes = useStyles()
     return (
-      <MuiGrid >
+      <MuiGrid className={classes.PlayersSection}>
         <MuiTypography>Players</MuiTypography>
-        <MuiGrid container={true}>
-          <MuiAvatar />
-          <MuiGrid>Joshua</MuiGrid>
+        <MuiGrid container={true} spacing={1}>
+
+          <MuiGrid item>
+            <MuiAvatar />
+          </MuiGrid>
+
+          <MuiGrid item>
+            <MuiTypography display={"block"}>{`Name: Joshua`}</MuiTypography>
+            <MuiTypography display={"block"}>{`Letter: x`}</MuiTypography>
+          </MuiGrid>
+
         </MuiGrid>
-        
+
       </MuiGrid>
     )
   }
   function SpectatorsSection() {
+    const classes = useStyles()
     return (
-      <MuiGrid>
+      <MuiGrid className={classes.SpectatorsSecction}>
         <MuiTypography>
           Spectators
         </MuiTypography>

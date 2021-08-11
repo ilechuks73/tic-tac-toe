@@ -13,23 +13,21 @@ export const useStyles = makeStyles({
       "& > div": {
         backgroundColor: "purple",
         height: "100%",
-        "& > div": {
-          padding: "25px 10px",
-          "& > div": {
-            borderRadius: "10px",
-            border: "1px solid grey",
-            padding: "5px 10px",
-            marginBottom: "10px"
-          }
-        }
+        "& > div": {}
       }
     }
   },
 
-  PlayersSection:{
-
+  PlayersSection: {
+    borderRadius: "10px",
+    border: "1px solid grey",
+    padding: "5px 10px",
+    marginBottom: "10px"
   },
-  SpectatorsSecction:{
-    
+  SpectatorsSecction: {
+    borderRadius: "10px",
+    border: "1px solid grey",
+    padding: "5px 10px",
+    marginBottom: "10px"
   }
 })
