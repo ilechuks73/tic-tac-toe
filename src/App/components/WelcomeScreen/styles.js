@@ -9,14 +9,11 @@ export const useStyles = makeStyles({
       left: 0,
       bottom: 0,
       backgroundColor: "rgba(0,0,0,0.9)",
-      "& div":{
-        animation: "all 1000ms ease-in-out forwards"
-      },
       "& > div":{
         backgroundColor: "white",
         height: "max-content",
         padding: "30px 20px"
       }
     }
-  },
+  }
 });

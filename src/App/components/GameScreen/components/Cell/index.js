@@ -11,19 +11,24 @@ import {
   Grow,
 } from "@material-ui/core";
 
-function Cells(props) {
+function Cell(props) {
   const classes = useStyles();
   const { play, gameState } = useGameState();
   return (
-    <div
-      className={classes.Cells}
+    <MuiGrid
+      item={true}
+      container
+      xs={4}
+      className={classes.Cell}
       onClick={() => {
         play(props.index);
       }}
     >
-      {}
-    </div>
+      <MuiGrid container>
+        {""}
+      </MuiGrid>
+    </MuiGrid>
   );
 }
 
-export default Cells;
+export default Cell;

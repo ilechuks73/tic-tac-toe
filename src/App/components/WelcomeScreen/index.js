@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { useStyles } from "./styles";
+import {OnlineGameMenu, LocalGameMenu} from "./components"
 import { useGameState, useNavigation } from "../../hooks";
 
 import {
@@ -30,16 +31,16 @@ function handleClick(setTabValues, value) {
 
 export default function WelcomeScreen() {
   const classes = useStyles();
-  const [tabValues, setTabValues] = useState(0);
+  const [tabValues, setTabValues] = useState(1);
   const { gameState, startGame } = useGameState();
-  const {goToLobbyScreen} = useNavigation()
+  const { goToLobbyScreen } = useNavigation()
   const [formState, setFormState] = useState({ offline: true });
 
   return (
     <div className={classes.WelcomeScreen}>
-      <Fade in={gameState.screens.welcomeScreen}>
-        <MuiGrid container={true} alignContent={"center"} justify={"center"}>
-          <MuiGrid xs={8} item={true}>
+      <Fade in={gameState.screens.welcomeScreen} unmountOnExit>
+        <MuiGrid container={true} alignContent={"center"} justify={"center"} >
+          <MuiGrid xs={8} sm={6} md={5} lg={4} xl={3} item={true}>
             <MuiGrid container={true}>
               <MuiGrid xs={6} item>
                 <MuiTypography align={"center"}>TIC</MuiTypography>
@@ -102,174 +103,5 @@ export default function WelcomeScreen() {
     </div>
   );
 
-  function OnlineGameMenu() {
-    const [value, setValue] = useState({
-      type: "",
-      helperText: "Select a MultiPlayer Mode",
-    });
-
-    return (
-      <MuiGrid xs={12} item>
-        <MuiFormControl component="fieldset">
-          <MuiRadioGroup
-            value={JSON.stringify(value)}
-            onChange={(event) => {
-              setValue(JSON.parse(event.target.value));
-            }}
-          >
-            <MuiGrid container>
-              <MuiGrid xs={6} item>
-                <MuiFormControlLabel
-                  value={JSON.stringify({
-                    type: "create",
-                    helperText: "Create room",
-                  })}
-                  control={<MuiRadio />}
-                  label="Create Room"
-                  onClick={() => {
-                    setFormState();
-                  }}
-                />
-              </MuiGrid>
-              <MuiGrid xs={6} item>
-                <MuiFormControlLabel
-                  value={JSON.stringify({
-                    type: "join",
-                    helperText: "Join room",
-                  })}
-                  control={<MuiRadio size="small" />}
-                  label="Join Room"
-                />
-              </MuiGrid>
-            </MuiGrid>
-          </MuiRadioGroup>
-
-          <Fade in={value.type === "join"} exit={false} unmountOnExit>
-            <MuiGrid>
-              <JoinRoomMenu />
-            </MuiGrid>
-          </Fade>
-          <Fade in={value.type === "create"} exit={false} unmountOnExit>
-            <MuiGrid>
-              <CreateRoomMenu />
-            </MuiGrid>
-          </Fade>
-          <MuiFormHelperText>{value.helperText}</MuiFormHelperText>
-        </MuiFormControl>
-      </MuiGrid>
-    );
-    function CreateRoomMenu() {
-      return (
-        <MuiGrid>
-          <MuiTextField
-            size={"small"}
-            variant={"outlined"}
-            label="enter name"
-          />
-          <MuiTextField
-            variant="outlined"
-            type="number"
-            label="select number of rows"
-            inputProps={{ min: "1", max: "6" }}
-          />
-          <MuiButton size={"small"} variant={"outlined"} onClick={()=>{
-            goToLobbyScreen()
-          }}>
-            Create Room
-          </MuiButton>
-          <MuiTypography>{"Room Code: XXXX-XXXX"}</MuiTypography>
-        </MuiGrid>
-      );
-    }
-    function JoinRoomMenu() {
-      return (
-        <MuiGrid>
-          <MuiTextField
-            size={"small"}
-            variant={"outlined"}
-            label="enter name"
-          />
-          <MuiTextField
-            label="Enter Room Code"
-            size={"small"}
-            variant="outlined"
-          />
-
-          <MuiButton size={"small"} variant={"outlined"}onClick={()=>{
-            goToLobbyScreen()
-          }}>
-            Join Room
-          </MuiButton>
-        </MuiGrid>
-      );
-    }
-  }
-
-  function LocalGameMenu() {
-    const [tabValues, setTabValues] = useState({
-      type: "multiplayer",
-      helperText: "Same computer",
-    });
-    return (
-      <MuiGrid>
-        <MuiFormControl component="fieldset">
-          <MuiRadioGroup
-            value={JSON.stringify(tabValues)}
-            onChange={(event) => {
-              setTabValues(JSON.parse(event.target.value));
-            }}
-          >
-            <MuiGrid xs={12} item>
-              <MuiFormControlLabel
-                value={JSON.stringify({
-                  type: "computer",
-                  helperText: "Play against AI",
-                })}
-                disabled
-                control={<MuiRadio size="small" />}
-                label="Computer"
-              />
-              <MuiFormControlLabel
-                value={JSON.stringify({
-                  type: "multiplayer",
-                  helperText: "Same computer",
-                })}
-                control={<MuiRadio size="small" />}
-                label="Multiplayer"
-              />
-            </MuiGrid>
-          </MuiRadioGroup>
-
-          <Fade in={tabValues.type === "computer"} exit={false} unmountOnExit>
-            <MuiGrid></MuiGrid>
-          </Fade>
-          <Fade
-            in={tabValues.type === "multiplayer"}
-            exit={false}
-            unmountOnExit
-          >
-            <MuiGrid>
-              <MultiplayerGameMenu />
-            </MuiGrid>
-          </Fade>
-          <MuiFormHelperText>{tabValues.helperText}</MuiFormHelperText>
-        </MuiFormControl>
-      </MuiGrid>
-    );
-
-    function MultiplayerGameMenu() {
-      return (
-        <MuiGrid>
-          <MuiGrid>
-            <MuiTextField
-              variant="outlined"
-              type="number"
-              label="select number of rows"
-              inputProps={{ min: "1", max: "6" }}
-            />
-          </MuiGrid>
-        </MuiGrid>
-      );
-    }
-  }
+  
 }

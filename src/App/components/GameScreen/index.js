@@ -1,8 +1,9 @@
-import Cells from "./components/Cells";
+
+import Cells from "./components/Cell";
 
 import { useStyles } from "./styles";
 
-import { useGameState, useWebSocket } from "../../hooks";
+import { useGameState, useNavigation, useWebSocket } from "../../hooks";
 
 import {
   Typography as MuiTypography,
@@ -20,7 +21,7 @@ function GameScreen() {
   const classes = useStyles()
   return (
     <MuiGrid className={classes.GameScreen}>
-      <Grow in={gameState.screens.gameScreen} timeout={800}>
+      <Grow in={gameState.screens.gameScreen} timeout={800} unmountOnExit>
         <MuiGrid>
           <Header />
           <MuiGrid container justify={"center"}>
@@ -39,6 +40,8 @@ export default GameScreen
 
 function Header() {
   const classes = useStyles()
+  const {goToWelcomeScreen} = useNavigation()
+  
   return (
     <MuiGrid className={classes.Header} container={true} justify={"space-around"} alignItems={"center"}>
       <MuiGrid>
@@ -56,7 +59,9 @@ function Header() {
         </MuiGrid>
       </MuiGrid>
       <MuiGrid>
-        <MuiButton color={"secondary"} variant={"contained"}>Leave</MuiButton>
+        <MuiButton color={"secondary"} variant={"contained"} onClick={()=>{
+          goToWelcomeScreen()
+        }}>Leave</MuiButton>
       </MuiGrid>
     </MuiGrid>
   )
@@ -67,20 +72,17 @@ function Header() {
 function Board() {
   const classes = useStyles();
   const { gameState } = useGameState();
-  console.log(gameState.board.state)
   return (
-    <MuiGrid>
-      <div className={classes.Board}>
+    <MuiGrid item className={classes.Board}>
+      <MuiGrid container>
         {
           gameState.board.state.map((item, index) => {
             return (
               <Cells key={index} index={index} />
             )
           })
-
-
         }
-      </div>
+      </MuiGrid>
     </MuiGrid>
   );
 }

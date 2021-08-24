@@ -21,7 +21,7 @@ function LobbyScreen() {
   return (
     <MuiGrid className={classes.LobbyScreen}>
 
-      <Grow in={gameState.screens.lobbyScreen} timeout={800}>
+      <Grow in={gameState.screens.lobbyScreen} timeout={800} unmountOnExit>
 
         <MuiGrid>
           <MuiGrid container={true} justify={"center"} alignItems={"center"}>
