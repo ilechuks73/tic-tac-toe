@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, forwardRef } from "react";
+import { useState } from "react";
 import { useGameState, useNavigation } from "../../../../hooks";
+import { useStyles } from "./styles"
 
 import { MultiplayerGameMenu, SinglePlayerGameMenu } from "./components";
 
@@ -28,50 +29,55 @@ export default function LocalGameMenu() {
     type: "multiplayer",
     helperText: "Same computer",
   });
-  return (
-    <MuiGrid>
-      <MuiFormControl component="fieldset">
-        <MuiRadioGroup
-          value={JSON.stringify(tabValues)}
-          onChange={(event) => {
-            setTabValues(JSON.parse(event.target.value));
-          }}
-        >
-          <MuiGrid xs={12} item>
-            <MuiFormControlLabel
-              value={JSON.stringify({
-                type: "computer",
-                helperText: "Play against AI",
-              })}
-              disabled
-              control={<MuiRadio size="small" />}
-              label="Computer"
-            />
-            <MuiFormControlLabel
-              value={JSON.stringify({
-                type: "multiplayer",
-                helperText: "Same computer",
-              })}
-              control={<MuiRadio size="small" />}
-              label="Multiplayer"
-            />
-          </MuiGrid>
-        </MuiRadioGroup>
 
-        <Fade in={tabValues.type === "computer"} exit={false} unmountOnExit>
-          <MuiGrid></MuiGrid>
-        </Fade>
-        <Fade
-          in={tabValues.type === "multiplayer"}
-          exit={false}
-          unmountOnExit
-        >
-          <MuiGrid>
-            <MultiplayerGameMenu />
-          </MuiGrid>
-        </Fade>
-        <MuiFormHelperText>{tabValues.helperText}</MuiFormHelperText>
-      </MuiFormControl>
+  const classes = useStyles()
+  return (
+    <MuiGrid className={classes.LocalGameMenu}>
+      <MuiGrid>
+        <MuiFormControl component="fieldset">
+          <MuiRadioGroup
+            value={JSON.stringify(tabValues)}
+            onChange={(event) => {
+              setTabValues(JSON.parse(event.target.value));
+            }}
+          >
+            <MuiGrid xs={12} item>
+              <MuiFormControlLabel
+                value={JSON.stringify({
+                  type: "computer",
+                  helperText: "Play against AI",
+                })}
+                disabled
+                control={<MuiRadio size="small" />}
+                label="Computer"
+              />
+              <MuiFormControlLabel
+                value={JSON.stringify({
+                  type: "multiplayer",
+                  helperText: "Same computer",
+                })}
+                control={<MuiRadio size="small" />}
+                label="Multiplayer"
+              />
+            </MuiGrid>
+          </MuiRadioGroup>
+
+          <Fade in={tabValues.type === "computer"} exit={false} unmountOnExit>
+            <MuiGrid></MuiGrid>
+          </Fade>
+          <Fade
+            in={tabValues.type === "multiplayer"}
+            exit={false}
+            unmountOnExit
+          >
+            <MuiGrid>
+              <MultiplayerGameMenu />
+            </MuiGrid>
+          </Fade>
+          <MuiFormHelperText>{tabValues.helperText}</MuiFormHelperText>
+        </MuiFormControl>
+      </MuiGrid>
+
     </MuiGrid>
   );
 

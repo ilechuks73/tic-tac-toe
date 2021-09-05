@@ -22,9 +22,12 @@ import {
   Grow,
 } from "@material-ui/core";
 
-export default function JoinRoomMenu() {
-  const {JoinRoomMenu} = useStyles()
-  const {goToLobbyScreen} = useNavigation()
+export default function JoinRoomMenu({ serverReachable }) {
+  const [formState, setFormState] = useState({})
+  const { JoinRoomMenu } = useStyles()
+  const { gameState, setGameState, joinRoom } = useGameState()
+  const { goToLobbyScreen } = useNavigation()
+
   return (
     <MuiGrid className={JoinRoomMenu} >
       <MuiGrid>
@@ -32,25 +35,32 @@ export default function JoinRoomMenu() {
           size={"small"}
           variant={"outlined"}
           label="enter name"
+          onChange={(e) => {
+            setFormState({ ...formState, playerName: e.target.value })
+          }}
         />
       </MuiGrid>
 
       <MuiGrid>
         <MuiTextField
-          label="Enter Room Code"
+          label="Enter Room ID"
           size={"small"}
           variant="outlined"
+          onChange={(e) => {
+            setFormState({ ...formState, roomID: e.target.value })
+          }}
         />
       </MuiGrid>
 
       <MuiGrid>
         <MuiButton size={"small"} variant={"outlined"} onClick={() => {
-        goToLobbyScreen()
-      }}>
-        Join Room
-      </MuiButton>
+          joinRoom(formState)
+          goToLobbyScreen()
+        }} disabled={!serverReachable}>
+          Join Room
+        </MuiButton>
       </MuiGrid>
-      
+
     </MuiGrid>
   );
 }

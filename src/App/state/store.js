@@ -1,22 +1,36 @@
 import { useReducer } from "react";
 import { GameContext } from "./context";
+import { GameReducer } from "./reducer"
 
 function Store(props) {
   const initialGameState = {
     active: false,
-    online: {
-      active: false,
-      turn: {
-        active: true,
-        player: "",
+    players: {
+      player1: {
+        name: "",
+        score: 0,
+        letter: ""
+      },
+      player2: {
+        name: "",
+        score: 0,
+        letter: ""
       }
     },
-    offline:{
+    online: {
       active: true,
-      
+      host: "",
+      roomID: "",
+      playerID: ""
     },
-    turn: false,
-    numberOfRounds: 0,
+    offline: {
+      active: false,
+    },
+    turn: {
+      active: true,
+      letter: "X"
+    },
+    numberOfRounds: 2,
     board: {
       size: 3,
       state: [],
@@ -31,83 +45,23 @@ function Store(props) {
       [4, 5, 6],
       [7, 8, 9],
     ],
-    players: [],
-    spectators:[],
-    screens:{
+    spectators: [],
+    screens: {
       welcomeScreen: true,
       lobbyScreen: false,
       gameScreen: false
     }
   };
-  const [gameState, setGameState] = useReducer(reducer, initialGameState);
+  const [gameState, setGameState] = useReducer(GameReducer, initialGameState);
 
-  const intiateGameState = ()=>{
-    for (let i=0; i< Math.pow(initialGameState.board.size,2); i++){
+  const intiateGameState = () => {
+    for (let i = 0; i < Math.pow(initialGameState.board.size, 2); i++) {
       initialGameState.board.state.push("")
     }
   }
   intiateGameState()
 
-  function reducer(state, { type, payload }) {
-    
-    switch (type) {
 
-      case "INITIALIZE STATE":
-
-      return {...state};
-
-      case "START GAME":
-        state.active = true
-        return {...state};
-
-      case "PLAY":
-        state.board.state[payload.index] = payload.letter;
-        return state;
-
-      case "SWITCH TURN":
-        if (state === "X") {
-          state = "O";
-        } else if (state === "O") {
-          state = "X";
-        }
-        return state;
-
-      case "UPDATE TURN":
-        state = payload.letter;
-        return state;
-
-        //---NAVIGATION---//
-
-      case "GO TO WELCOMESCREEN":
-        state.screens = {
-          welcomeScreen: true,
-          lobbyScreen: false,
-          gameScreen: false,
-        }
-        return {...state};
-
-      case "GO TO LOBBYSCREEN":
-        state.screens = {
-          welcomeScreen: false,
-          lobbyScreen: true,
-          gameScreen: false,
-        }
-        return {...state};
-
-      case "GO TO GAMESCREEN":
-      state.screens = {
-        welcomeScreen: false,
-        lobbyScreen: false,
-        gameScreen: true,
-      }
-      return {...state};
-
-      
-
-      default:
-        return state;
-    }
-  }
 
   return (
     <GameContext.Provider

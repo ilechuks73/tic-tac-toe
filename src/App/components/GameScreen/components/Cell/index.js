@@ -10,6 +10,7 @@ import {
   Slide,
   Grow,
 } from "@material-ui/core";
+import { Games } from "@material-ui/icons";
 
 function Cell(props) {
   const classes = useStyles();
@@ -18,14 +19,18 @@ function Cell(props) {
     <MuiGrid
       item={true}
       container
-      xs={4}
       className={classes.Cell}
+      xs={4}
       onClick={() => {
         play(props.index);
       }}
     >
       <MuiGrid container>
-        {""}
+        <MuiTypography>
+          {
+            gameState.board.state[props.index]
+          }
+        </MuiTypography>
       </MuiGrid>
     </MuiGrid>
   );

@@ -1,3 +1,4 @@
+import { Translate } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles({
@@ -7,7 +8,16 @@ export const useStyles = makeStyles({
     padding: "10px",
     "& > div":{
       backgroundColor: "#fff1bc",
-      borderRadius: "20%"
+      borderRadius: "20%",
+      fontSize: "20px",
+      position:"relative",
+      '& > p':{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        fontSize: "50px",
+        transform: "translate(-50%, -50%)"
+      }
     }
   }
 })

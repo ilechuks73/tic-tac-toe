@@ -23,9 +23,13 @@ import {
 } from "@material-ui/core";
 
 
-export default function CreateRoomMenu() {
+export default function CreateRoomMenu({ serverReachable }) {
+  
   const classes = useStyles()
-  const {goToLobbyScreen} = useNavigation()
+  const { goToLobbyScreen } = useNavigation()
+  const {gameState, createRoom} = useGameState()
+  const [formState, setFormState] = useState({})
+
   return (
     <MuiGrid className={classes.CreateRoomMenu}>
       <MuiGrid>
@@ -33,6 +37,9 @@ export default function CreateRoomMenu() {
           size={"small"}
           variant={"outlined"}
           label="enter name"
+          onChange={(e) => {
+            setFormState({ ...formState, playerName: e.target.value })
+          }}
         />
       </MuiGrid>
       <MuiGrid>
@@ -41,17 +48,18 @@ export default function CreateRoomMenu() {
           type="number"
           label="select number of rows"
           inputProps={{ min: "3", max: "3" }}
+          onChange={(e) => {
+            setFormState({ ...formState, boardSize: parseInt(e.target.value) })
+          }}
         />
       </MuiGrid>
       <MuiGrid>
         <MuiButton size={"small"} variant={"outlined"} onClick={() => {
+          createRoom(formState)
           goToLobbyScreen()
-        }}>
+        }} disabled={!serverReachable} >
           Create Room
         </MuiButton>
-      </MuiGrid>
-      <MuiGrid>
-        <MuiTypography>{"Room Code: XXXX-XXXX"}</MuiTypography>
       </MuiGrid>
     </MuiGrid>
   );

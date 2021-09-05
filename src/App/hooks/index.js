@@ -1,48 +1,115 @@
 import { useContext, useEffect } from "react";
 import io from "socket.io-client";
+import { requestRoomID, createRoom as requestCreateRoom } from "../utils/networkRequest";
 
 import { GameContext } from "../state/context";
 
 export const useGameState = () => {
   const { gameState, setGameState } = useContext(GameContext);
-  const { emitPlay } = useWebSocket(play);
+  const { emitPlay, connect, emitJoinRoom, emitCreateRoom } = useWebSocket(play);
+
+
+
+  function initializeGameState() {
+    setGameState({
+      type: "INITIALIZE GAME STATE"
+    })
+  }
+
+  function createRoom(params) {
+    requestRoomID()
+      .then((data) => {
+        console.log(data)
+        params = { ...params, roomID: data.roomID }
+        setGameState({
+          type: "CREATE ROOM",
+          payload: params
+        })
+        emitCreateRoom({
+          roomID: data.roomID.toString(),
+          playerName: params.playerName.toString()
+        })
+      })
+
+  }
+
+  function joinRoom(params) {
+    setGameState({
+      type: "JOIN ROOM",
+      payload: params
+    })
+    emitJoinRoom({
+      roomID: params.roomID,
+      playerName: params.playerName
+    })
+  }
 
   function startGame() {
     setGameState({
       type: "START GAME",
     });
+
   }
 
-  function play(index) {}
+  function play(index) {
+    if (gameState.turn.active) {
+      setGameState({
+        type: "PLAY",
+        payload: {
+          index: index
+        }
+      })
+      switchTurn()
+      emitPlay(gameState.online.roomID.toString(), index)
+    }
+    else {
+      alert("not your turn")
+    }
 
-  
+  }
+
+  function switchTurn() {
+    setGameState({
+      type: "SWITCH TURN"
+    })
+  }
+
+
 
   return {
+    createRoom,
+    joinRoom,
+    initializeGameState,
     play,
     startGame,
     gameState
   };
 };
 
-export const useNavigation =  ()=>{
+export const useNavigation = () => {
   const { gameState, setGameState } = useContext(GameContext);
+  const { emitStartGame } = useWebSocket();
 
-  function goToWelcomeScreen(){
+  function goToWelcomeScreen() {
     setGameState({
       type: "GO TO WELCOMESCREEN"
     })
+
   }
 
-  function goToLobbyScreen(){
+  function goToLobbyScreen() {
     setGameState({
       type: "GO TO LOBBYSCREEN"
     })
   }
 
-  function goToGameScreen(){
+  function goToGameScreen() {
     setGameState({
       type: "GO TO GAMESCREEN"
     })
+    if (gameState.online.active === true) {
+      emitStartGame(gameState.online.roomID.toString())
+    }
   }
 
   return {
@@ -126,23 +193,86 @@ export const useNavigation =  ()=>{
 //   };
 // }
 let socket;
-export function useWebSocket(play) {
+export function useWebSocket() {
+  const { gameState, setGameState } = useContext(GameContext);
   function connect() {
-    socket = io("http://localhost:3650/");
+    socket = io("http://localhost:3650");
+    activateListeners()
   }
-  function joinRoom() {
-    socket.emit("join_room", "test");
-    socket.on("receivePlay", (data) => {
-      console.log(data);
+
+  function emitCreateRoom(params) {
+    socket.emit("createRoom", params);
+  }
+
+  function emitJoinRoom(params) {
+    socket.emit("joinRoom", params);
+  }
+
+  function emitStartGame(roomID) {
+    socket.emit("startGame", roomID)
+  }
+
+  function emitPlay(roomID, index) {
+    socket.emit("play", { roomID, index });
+  }
+
+  function activateListeners(params) {
+    socket.on("connectionSuccess", (id) => {
+      console.log(id)
+    })
+    socket.on("joinRoom", (playerName) => {
+      setGameState({
+        type: "JOIN ROOM",
+        payload: { playerName: playerName }
+      })
+    })
+
+    socket.on("joinedRoom", (playerName) => {
+      setGameState({
+        type: "UPDATE STATE",
+        payload: {
+          players: {
+            ...gameState.players,
+            player2: {
+              ...gameState.players.player2,
+              name: playerName
+            }
+          }
+        }
+      })
+    })
+
+    socket.on("startGame", () => {
+      setGameState({
+        type: "START GAME"
+      })
+      setGameState({
+        type: "GO TO GAMESCREEN"
+      })
+    })
+    socket.on("play", (data) => {
+      setGameState({
+        type: "PLAY",
+        payload: {
+          index: data.index
+        }
+      })
+      setGameState({
+        type: "SWITCH TURN"
+      })
     });
-  }
-  function emitPlay(room, index, letter) {
-    socket.emit("sendPlay", { room, index, letter });
+
+    socket.on("test", () => {
+      alert("test")
+    })
   }
 
   return {
     connect,
-    joinRoom,
+    emitCreateRoom,
+    emitJoinRoom,
+    emitStartGame,
     emitPlay,
   };
 }
+

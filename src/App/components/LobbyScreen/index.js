@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStyles } from './styles'
 import { useGameState, useNavigation } from "../../hooks";
+
+import { PlayersSection, SpectatorsSection } from "./components";
 
 import {
   Typography as MuiTypography,
@@ -15,8 +17,11 @@ import {
 function LobbyScreen() {
   const classes = useStyles()
 
-  const { gameState } = useGameState()
-  const {goToGameScreen} = useNavigation()
+  const { gameState, startGame } = useGameState()
+  const { goToGameScreen } = useNavigation()
+  useEffect(() => {
+    console.log(gameState)
+  }, [gameState])
 
   return (
     <MuiGrid className={classes.LobbyScreen}>
@@ -28,11 +33,18 @@ function LobbyScreen() {
             <MuiGrid xs={9} item={true}>
               <PlayersSection />
               <SpectatorsSection />
-              <MuiButton variant={"contained"} onClick={()=>{
-                goToGameScreen()
-              }}>
-                Start
-              </MuiButton>
+              {
+                gameState.online.host === "player2"
+                  ?
+                  " "
+                  :
+                  <MuiButton variant={"contained"} onClick={() => {
+                    startGame()
+                    goToGameScreen()
+                  }}>
+                    Start
+                  </MuiButton>
+              }
             </MuiGrid>
           </MuiGrid>
         </MuiGrid>
@@ -40,40 +52,6 @@ function LobbyScreen() {
 
     </MuiGrid>
   )
-
-  function PlayersSection() {
-    const classes = useStyles()
-    return (
-      <MuiGrid className={classes.PlayersSection}>
-        <MuiTypography>Players</MuiTypography>
-        <MuiGrid container={true} spacing={1}>
-
-          <MuiGrid item>
-            <MuiAvatar />
-          </MuiGrid>
-
-          <MuiGrid item>
-            <MuiTypography display={"block"}>{`Name: Joshua`}</MuiTypography>
-            <MuiTypography display={"block"}>{`Letter: x`}</MuiTypography>
-          </MuiGrid>
-
-        </MuiGrid>
-
-      </MuiGrid>
-    )
-  }
-  function SpectatorsSection() {
-    const classes = useStyles()
-    return (
-      <MuiGrid className={classes.SpectatorsSecction}>
-        <MuiTypography>
-          Spectators
-        </MuiTypography>
-        <MuiAvatar>
-        </MuiAvatar>
-      </MuiGrid>
-    )
-  }
 }
 
 export default LobbyScreen

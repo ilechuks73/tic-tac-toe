@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
-import { useGameState, useNavigation } from "../../../../hooks";
+import { useGameState, useNavigation, useWebSocket } from "../../../../hooks";
 import { useStyles } from "./styles";
+
+import { testConnection } from "../../../../utils/networkRequest";
 
 import { CreateRoomMenu, JoinRoomMenu } from "./components";
 
@@ -25,12 +27,23 @@ import {
 } from "@material-ui/core";
 
 export default function OnlineGameMenu() {
+  const [serverReachable, setServerReachable] = useState(false)
+  const {connect} = useWebSocket()
+  useEffect(() => {
+    testConnection()
+      .then((data) => {
+        setServerReachable(true)
+        connect()
+      })
+      .catch((err) => setServerReachable(false))
+  }, [])
+
   const [value, setValue] = useState({
     type: "",
     helperText: "Select a MultiPlayer Mode",
   });
 
-  const {OnlineGameMenu} = useStyles()
+  const { OnlineGameMenu } = useStyles()
 
   return (
     <MuiGrid className={OnlineGameMenu}>
@@ -43,7 +56,7 @@ export default function OnlineGameMenu() {
             }}
           >
             <MuiGrid container>
-              <MuiGrid xs={6} item alignContent={"center"}>
+              <MuiGrid xs={6} item>
                 <MuiFormControlLabel
                   value={JSON.stringify({
                     type: "create",
@@ -68,12 +81,12 @@ export default function OnlineGameMenu() {
 
           <Fade in={value.type === "join"} exit={false} unmountOnExit>
             <MuiGrid>
-              <JoinRoomMenu />
+              <JoinRoomMenu serverReachable={serverReachable} />
             </MuiGrid>
           </Fade>
           <Fade in={value.type === "create"} exit={false} unmountOnExit>
             <MuiGrid>
-              <CreateRoomMenu />
+              <CreateRoomMenu serverReachable={serverReachable} />
             </MuiGrid>
           </Fade>
           <MuiFormHelperText>{value.helperText}</MuiFormHelperText>

@@ -36,7 +36,7 @@ export default function MultiplayerGameMenu() {
         />
       </MuiGrid>
       <MuiGrid>
-        <MuiButton variant={"contained"} onClick={()=>{
+        <MuiButton variant={"outlined"} onClick={()=>{
           goToLobbyScreen()
         }}>
           Play
