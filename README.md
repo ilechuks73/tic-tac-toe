@@ -71,5 +71,5 @@ $ npm install
 ```
 to start the server run 
 ```
-$ npm start"
+$ npm start
 ```
