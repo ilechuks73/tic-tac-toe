@@ -2,6 +2,8 @@
 
 This is a simple game of tic tac toe with online multiplayer support 
 
+you can view the backend code [Here](https://github.com/ilechuks73/tic-tac-toe-backend)
+
 ### FOR DEVELOPERS & COLLABORATORS:
 
 clone the repository:
