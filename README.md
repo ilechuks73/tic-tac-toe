@@ -1,4 +1,4 @@
-###TIC TAC TOE GAME
+# TIC TAC TOE GAME (FRONTEND)
 
 This is a simple game of tic tac toe with online multiplayer support 
 
