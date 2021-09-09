@@ -4,9 +4,24 @@ import { requestRoomID, createRoom as requestCreateRoom } from "../utils/network
 
 import { GameContext } from "../state/context";
 
-export const useGameState = () => {
+function checkForWin(gameState, index) {
+    gameState.winningIndices.forEach((item, index) => {
+      let winArray = [];
+      item.forEach((item) => {
+        if (gameState.board.state[item - 1].toString() === gameState.turn.letter) {
+          winArray.push(true);
+        }
+      });
+      if (winArray.length === 3) {
+        alert("win");
+      }
+      winArray = [];
+    });
+}
+
+export function useGameState() {
   const { gameState, setGameState } = useContext(GameContext);
-  const { emitPlay, connect, emitJoinRoom, emitCreateRoom } = useWebSocket(play);
+  const { emitPlay, connect, emitJoinRoom, emitCreateRoom } = useWebSocket();
 
 
 
@@ -59,6 +74,7 @@ export const useGameState = () => {
           index: index
         }
       })
+      checkForWin(gameState, index)
       switchTurn()
       emitPlay(gameState.online.roomID.toString(), index)
     }
@@ -74,6 +90,7 @@ export const useGameState = () => {
     })
   }
 
+  
 
 
   return {
@@ -111,6 +128,8 @@ export const useNavigation = () => {
       emitStartGame(gameState.online.roomID.toString())
     }
   }
+
+
 
   return {
     goToWelcomeScreen,
@@ -195,6 +214,7 @@ export const useNavigation = () => {
 let socket;
 export function useWebSocket() {
   const { gameState, setGameState } = useContext(GameContext);
+
   function connect() {
     socket = io("http://localhost:3650");
     activateListeners()
@@ -257,6 +277,7 @@ export function useWebSocket() {
           index: data.index
         }
       })
+      checkForWin(gameState, data.index)
       setGameState({
         type: "SWITCH TURN"
       })
