@@ -31,12 +31,13 @@ function LobbyScreen() {
         <MuiGrid>
           <MuiGrid container={true} justify={"center"} alignItems={"center"}>
             <MuiGrid xs={9} item={true}>
+              <MuiTypography variant={"h5"}>{`Room ID: ${gameState.online.roomID}`}</MuiTypography>
               <PlayersSection />
               <SpectatorsSection />
               {
                 gameState.online.host === "player2"
                   ?
-                  " "
+                  "waiting for host to start..."
                   :
                   <MuiButton variant={"contained"} onClick={() => {
                     startGame()

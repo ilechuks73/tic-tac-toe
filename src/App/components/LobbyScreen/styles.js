@@ -11,7 +11,7 @@ export const useStyles = makeStyles({
       right: 0,
       bottom: 0,
       "& > div": {
-        backgroundColor: "purple",
+        backgroundColor: "#ffe300",
         height: "100%",
         "& > div": {}
       }

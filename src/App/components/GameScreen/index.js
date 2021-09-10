@@ -40,6 +40,7 @@ export default GameScreen
 
 function Header() {
   const classes = useStyles()
+  const { gameState, leaveGame } = useGameState()
   const {goToWelcomeScreen} = useNavigation()
   
   return (
@@ -49,18 +50,18 @@ function Header() {
       </MuiGrid>
       <MuiGrid xs={4} container={true} justify={"space-between"} item={true}>
         <MuiGrid item={true}>
-          <MuiTypography>Player1</MuiTypography>
-          <MuiTypography align={"center"}>2</MuiTypography>
+          <MuiTypography>{gameState.players.player1.name}</MuiTypography>
+          <MuiTypography align={"center"}>{gameState.players.player1.score}</MuiTypography>
         </MuiGrid>
         <MuiTypography>{"|"}</MuiTypography>
         <MuiGrid>
-          <MuiTypography>Player2</MuiTypography>
-          <MuiTypography align={"center"}>8</MuiTypography>
+          <MuiTypography>{gameState.players.player2.name}</MuiTypography>
+          <MuiTypography align={"center"}>{gameState.players.player2.score}</MuiTypography>
         </MuiGrid>
       </MuiGrid>
       <MuiGrid>
         <MuiButton color={"secondary"} variant={"contained"} onClick={()=>{
-          goToWelcomeScreen()
+          leaveGame()
         }}>Leave</MuiButton>
       </MuiGrid>
     </MuiGrid>

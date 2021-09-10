@@ -4,24 +4,41 @@ import { requestRoomID, createRoom as requestCreateRoom } from "../utils/network
 
 import { GameContext } from "../state/context";
 
-function checkForWin(gameState, index) {
-    gameState.winningIndices.forEach((item, index) => {
-      let winArray = [];
-      item.forEach((item) => {
-        if (gameState.board.state[item - 1].toString() === gameState.turn.letter) {
-          winArray.push(true);
-        }
-      });
-      if (winArray.length === 3) {
-        alert("win");
+function handlePlay(gameState, setGameState, index) {
+  setGameState({
+    type: "PLAY",
+    payload: {
+      index: index
+    }
+  })
+  checkForWin(gameState)
+  setGameState({
+    type: "SWITCH TURN"
+  })
+}
+
+function checkForWin(gameState) {
+  gameState.winningIndices.forEach((item) => {
+    let winArray = [];
+    item.forEach((item) => {
+      if (gameState.board.state[item - 1].toString() === gameState.turn.letter.toString()) {
+        winArray.push(true);
       }
-      winArray = [];
     });
+    if (winArray.length === 3) {
+      alert("win");
+    }
+    else{
+      console.log("no win")
+      winArray = [];
+    }
+    
+  });
 }
 
 export function useGameState() {
   const { gameState, setGameState } = useContext(GameContext);
-  const { emitPlay, connect, emitJoinRoom, emitCreateRoom } = useWebSocket();
+  const { emitPlay, connect, emitJoinRoom, emitCreateRoom, emitLeaveGame } = useWebSocket();
 
 
 
@@ -68,14 +85,7 @@ export function useGameState() {
 
   function play(index) {
     if (gameState.turn.active) {
-      setGameState({
-        type: "PLAY",
-        payload: {
-          index: index
-        }
-      })
-      checkForWin(gameState, index)
-      switchTurn()
+      handlePlay(gameState, setGameState, index)
       emitPlay(gameState.online.roomID.toString(), index)
     }
     else {
@@ -84,14 +94,12 @@ export function useGameState() {
 
   }
 
-  function switchTurn() {
+  function leaveGame() {
     setGameState({
-      type: "SWITCH TURN"
-    })
+      type: "GO TO WELCOMESCREEN"
+    });
+    emitLeaveGame(gameState.online.roomID)
   }
-
-  
-
 
   return {
     createRoom,
@@ -99,6 +107,7 @@ export function useGameState() {
     initializeGameState,
     play,
     startGame,
+    leaveGame,
     gameState
   };
 };
@@ -236,7 +245,11 @@ export function useWebSocket() {
     socket.emit("play", { roomID, index });
   }
 
-  function activateListeners(params) {
+  function emitLeaveGame(roomID) {
+    socket.emit("leaveGame", { roomID });
+  }
+
+  function activateListeners() {
     socket.on("connectionSuccess", (id) => {
       console.log(id)
     })
@@ -271,17 +284,15 @@ export function useWebSocket() {
       })
     })
     socket.on("play", (data) => {
-      setGameState({
-        type: "PLAY",
-        payload: {
-          index: data.index
-        }
-      })
-      checkForWin(gameState, data.index)
-      setGameState({
-        type: "SWITCH TURN"
-      })
+      handlePlay(gameState, setGameState, data.index)
     });
+
+    socket.on("leaveGame", (data) => {
+      alert("a player just left the room, click ok to return to lobby")
+      setGameState({
+        type: "GO TO WELCOMESCREEN"
+      })
+    })
 
     socket.on("test", () => {
       alert("test")
@@ -294,6 +305,7 @@ export function useWebSocket() {
     emitJoinRoom,
     emitStartGame,
     emitPlay,
+    emitLeaveGame
   };
 }
 

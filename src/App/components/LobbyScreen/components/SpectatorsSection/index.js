@@ -20,8 +20,9 @@ export default function SpectatorsSection() {
       <MuiTypography>
         Spectators
       </MuiTypography>
-      <MuiAvatar>
-      </MuiAvatar>
+      <MuiGrid>
+        <MuiTypography>No Spectators</MuiTypography>
+      </MuiGrid>
     </MuiGrid>
   )
 }
