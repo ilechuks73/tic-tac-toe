@@ -39,7 +39,8 @@ export function GameReducer(state, { type, payload }) {
 
 
     case "PLAY":
-        state.board.state[payload.index] = state.turn.letter;
+      //state.splice(2, 1, "r");
+        state.board.state.splice(payload.index, 1, payload.letter)
       
       return { ...state };
 

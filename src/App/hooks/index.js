@@ -8,31 +8,40 @@ function handlePlay(gameState, setGameState, index) {
   setGameState({
     type: "PLAY",
     payload: {
-      index: index
+      index: index,
+      letter: gameState.turn.letter
     }
   })
-  checkForWin(gameState)
+  checkForWin(gameState, setGameState, gameState.turn.letter.toString())
   setGameState({
     type: "SWITCH TURN"
   })
 }
 
-function checkForWin(gameState) {
-  gameState.winningIndices.forEach((item) => {
+function checkForWin(gameState, setGameState, letter) {
+  console.log(gameState.board.state, letter)
+  gameState.winningIndices.every((item) => {
     let winArray = [];
-    item.forEach((item) => {
-      if (gameState.board.state[item - 1].toString() === gameState.turn.letter.toString()) {
+    item.every((item) => {
+      if (gameState.board.state[(item - 1)] === letter){
         winArray.push(true);
       }
+      else{
+        return false;
+      }
+      return true
     });
     if (winArray.length === 3) {
-      alert("win");
+      console.log(letter + " wins")
+      winArray = []
+      return false;
+      
     }
     else{
-      console.log("no win")
+      console.log("no winner")
       winArray = [];
     }
-    
+    return true
   });
 }
 

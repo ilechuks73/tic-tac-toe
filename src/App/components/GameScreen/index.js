@@ -46,7 +46,7 @@ function Header() {
   return (
     <MuiGrid className={classes.Header} container={true} justify={"space-around"} alignItems={"center"}>
       <MuiGrid>
-        <MuiTypography>active</MuiTypography>
+        <MuiTypography>{`Turn: ${gameState.turn.letter}`}</MuiTypography>
       </MuiGrid>
       <MuiGrid xs={4} container={true} justify={"space-between"} item={true}>
         <MuiGrid item={true}>

@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { GameContext } from "./context";
-import { GameReducer } from "./reducer"
+import { GameReducer } from "./reducer";
 
 function Store(props) {
   const initialGameState = {

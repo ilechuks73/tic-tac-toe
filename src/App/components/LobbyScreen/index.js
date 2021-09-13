@@ -19,9 +19,6 @@ function LobbyScreen() {
 
   const { gameState, startGame } = useGameState()
   const { goToGameScreen } = useNavigation()
-  useEffect(() => {
-    console.log(gameState)
-  }, [gameState])
 
   return (
     <MuiGrid className={classes.LobbyScreen}>
