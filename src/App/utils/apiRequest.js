@@ -28,7 +28,14 @@ export function requestRoomID() {
 export function testConnection() {
   return new Promise((resolve, reject) => {
     fetch(`${baseURL}/testConnection`)
-      .then((res) => resolve(res.json()))
+      .then((res) => {
+        if(res.status === 200){
+          resolve()
+        }
+        else{
+          reject("server not reachable")
+        }
+      })
       .catch((err) => reject(err))
   })
 }

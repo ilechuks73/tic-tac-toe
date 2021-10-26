@@ -1,6 +1,7 @@
 export function GameReducer(state, { type, payload }) {
 
   switch (type) {
+    
     case "START GAME":
       state.active = true
 
@@ -12,6 +13,10 @@ export function GameReducer(state, { type, payload }) {
         }
       }
       return { ...state };
+
+    case "INITIALIZE WEBSOCKET":
+      state.online.webSocket = payload
+      return { ...state }
 
     case "CREATE ROOM":
       state.players.player1.name = payload.playerName
@@ -40,8 +45,8 @@ export function GameReducer(state, { type, payload }) {
 
     case "PLAY":
       //state.splice(2, 1, "r");
-        state.board.state.splice(payload.index, 1, payload.letter)
-      
+      state.board.state.splice(payload.index, 1, payload.letter)
+
       return { ...state };
 
     case "SWITCH TURN":
@@ -88,7 +93,7 @@ export function GameReducer(state, { type, payload }) {
       return { ...state };
 
     case "UPDATE STATE":
-      return { ...state, ...payload }
+      return {...payload }
 
     default:
       return state;

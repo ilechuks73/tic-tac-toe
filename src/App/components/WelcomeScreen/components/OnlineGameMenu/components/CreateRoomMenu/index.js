@@ -54,10 +54,11 @@ export default function CreateRoomMenu({ serverReachable }) {
         />
       </MuiGrid>
       <MuiGrid>
-        <MuiButton size={"small"} variant={"outlined"} onClick={() => {
+        <MuiButton size={"small"} variant={"outlined"} disabled={!serverReachable} onClick={() => {
           createRoom(formState)
           goToLobbyScreen()
-        }} disabled={!serverReachable} >
+          
+        }}  >
           Create Room
         </MuiButton>
       </MuiGrid>

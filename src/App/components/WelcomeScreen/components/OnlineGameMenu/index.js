@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
-import { useGameState, useNavigation, useWebSocket } from "../../../../hooks";
+import { useGameState, useNavigation } from "../../../../hooks";
 import { useStyles } from "./styles";
 
-import { testConnection } from "../../../../utils/networkRequest";
+import { testConnection } from "../../../../utils/apiRequest";
+import { useWebSocket } from "../../../../utils/webSocket";
 
 import { CreateRoomMenu, JoinRoomMenu } from "./components";
 
@@ -27,13 +28,16 @@ import {
 } from "@material-ui/core";
 
 export default function OnlineGameMenu() {
-  const [serverReachable, setServerReachable] = useState(false)
-  const {connect} = useWebSocket()
+  const [serverReachable, setServerReachable] = useState(true)
+  const { gameState, initializeWebSocket } = useGameState()
+  const {connectWebSocket} = useWebSocket()
   useEffect(() => {
     testConnection()
-      .then((data) => {
+      .then(() => {
         setServerReachable(true)
-        connect()
+        connectWebSocket((webSocket)=>{
+          initializeWebSocket(webSocket)
+        })
       })
       .catch((err) => setServerReachable(false))
   }, [])

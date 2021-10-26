@@ -4,7 +4,7 @@ import { GameReducer } from "./reducer";
 
 function Store(props) {
   const initialGameState = {
-    active: false,
+    active: true,
     players: {
       player1: {
         name: "",

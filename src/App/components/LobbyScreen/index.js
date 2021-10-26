@@ -18,7 +18,6 @@ function LobbyScreen() {
   const classes = useStyles()
 
   const { gameState, startGame } = useGameState()
-  const { goToGameScreen } = useNavigation()
 
   return (
     <MuiGrid className={classes.LobbyScreen}>
@@ -36,11 +35,24 @@ function LobbyScreen() {
                   ?
                   "waiting for host to start..."
                   :
-                  <MuiButton variant={"contained"} onClick={() => {
+                  <MuiButton variant={"contained"}
+                  disabled={
+                    gameState.players.player2.name === ""
+                    ?
+                    true
+                    :
+                    false
+                  }
+                   onClick={() => {
                     startGame()
-                    goToGameScreen()
                   }}>
-                    Start
+                    {
+                      gameState.players.player2.name === ""
+                      ?
+                      "Waiting for player to join"
+                      :
+                      "Start"
+                    }
                   </MuiButton>
               }
             </MuiGrid>
