@@ -22,23 +22,31 @@ export function useGameState() {
   function createRoom(params) {
     requestRoomID()
       .then((data) => {
-        console.log(data)
-        params = { ...params, roomID: data.roomID }
-        setGameState({
-          type: "CREATE ROOM",
-          payload: params
-        })
-        gameState.online.webSocket.emit("createRoom", {
-          roomID: data.roomID.toString(),
-          playerName: params.playerName.toString()
-        })
+        if (data.error === true) {
+          alert('OOPS! No available rooms, try again later')
+        }
+        else {
+          params = { ...params, roomID: data.roomID }
+          setGameState({
+            type: "CREATE ROOM",
+            payload: params
+          })
+          gameState.online.webSocket.emit("createRoom", {
+            roomID: data.roomID.toString(),
+            playerName: params.playerName.toString()
+          })
+          setGameState({
+            type: "GO TO LOBBYSCREEN",
+            payload: params
+          })
+        }
       })
 
   }
 
   function joinRoom(params) {
     handleJoinRoom(gameState, setGameState, params)
-    
+
   }
 
   function startGame() {
@@ -69,7 +77,7 @@ export function useGameState() {
     setGameState({
       type: "GO TO WELCOMESCREEN"
     });
-    
+
   }
 
   return {
