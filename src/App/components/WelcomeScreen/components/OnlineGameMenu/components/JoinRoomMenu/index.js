@@ -55,10 +55,6 @@ export default function JoinRoomMenu({ serverReachable }) {
       <MuiGrid>
         <MuiButton size={"small"} variant={"outlined"} disabled={!serverReachable} onClick={() => {
           joinRoom(formState)
-          setTimeout(() => {
-            goToLobbyScreen()
-          }, 100);
-          
         }} >
           Join Room
         </MuiButton>

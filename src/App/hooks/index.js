@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { requestRoomID, createRoom as requestCreateRoom } from "../utils/apiRequest";
 import { GameContext } from "../state/context";
-import { handlePlay } from "../utils/gameFunctions";
+import { handlePlay, handleJoinRoom } from "../utils/gameFunctions";
 
 export function useGameState() {
   const { gameState, setGameState } = useContext(GameContext);
@@ -37,14 +37,8 @@ export function useGameState() {
   }
 
   function joinRoom(params) {
-    setGameState({
-      type: "JOIN ROOM",
-      payload: params
-    })
-    gameState.online.webSocket.emit("joinRoom", {
-      roomID: params.roomID,
-      playerName: params.playerName
-    })
+    handleJoinRoom(gameState, setGameState, params)
+    
   }
 
   function startGame() {

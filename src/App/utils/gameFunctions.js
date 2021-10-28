@@ -2,8 +2,21 @@ export function handleCreateRoom() {
 
 }
 
-export function handleJoinRoom() {
-
+export function handleJoinRoom(gameState, setGameState, params) {
+  setGameState({
+    type: "JOIN ROOM",
+    payload: params
+  })
+  setTimeout(() => {
+    setGameState({
+    type: "GO TO LOBBYSCREEN"
+  })
+  }, 200);
+  
+  gameState.online.webSocket.emit("joinRoom", {
+    roomID: params.roomID,
+    playerName: params.playerName
+  })
 }
 
 export function handleStartGame() {
