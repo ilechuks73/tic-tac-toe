@@ -1,0 +1,9 @@
+#Chat {
+  position: absolute;
+  height: max-content;
+  width: max-content;
+  bottom: 0;
+  right: 0;
+  background-color: blue;
+  z-index: 22;
+}

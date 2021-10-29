@@ -1,3 +1,4 @@
+import { Hidden } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles({
@@ -9,24 +10,25 @@ export const useStyles = makeStyles({
       left: 0,
       right: 0,
       "& > div:nth-child(2)": {
-        paddingTop: "20px",
-        backgroundColor: "black"
+        paddingTop: "20px"
       },
 
     }
   },
 
   Header: {
-    backgroundColor: "yellow",
+    backgroundColor: "#083e00",
+    color: "white",
+    fontWeight: "bold",
     padding: "8px 0",
     "& > div:nth-child(2)": {
     }
   },
-  Board: {
+  Board: { 
     "& > div": {
-      backgroundColor: "blue",
       width: "300px",
-      height: "300px"
+      height: "300px",
+     
     },
 
   }

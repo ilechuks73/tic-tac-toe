@@ -4,10 +4,9 @@ import { makeStyles } from "@material-ui/styles";
 export const useStyles = makeStyles({
   Cell:{
     margin: 0,
-    backgroundColor: "black",
     padding: "10px",
     "& > div":{
-      backgroundColor: "#fff1bc",
+      backgroundColor: "#083e00",
       borderRadius: "20%",
       fontSize: "20px",
       position:"relative",
@@ -16,7 +15,8 @@ export const useStyles = makeStyles({
         top: "50%",
         left: "50%",
         fontSize: "50px",
-        transform: "translate(-50%, -50%)"
+        transform: "translate(-50%, -50%)",
+        color: "white"
       }
     }
   }

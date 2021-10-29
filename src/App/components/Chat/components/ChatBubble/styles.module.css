@@ -1,0 +1,33 @@
+#ChatBubble{
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  background: none;
+  border: 2px solid black;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  z-index: 23;
+  bottom: 10px;
+  right: 10px;
+  box-sizing: border-box;
+}
+#ChatBubble div{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#ChatBubble #badge{
+  position: absolute;
+  top: 1.2px;
+  left: 1.2px;
+  background-color: red;
+  display: block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+}

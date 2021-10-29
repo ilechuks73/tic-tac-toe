@@ -21,7 +21,11 @@ function Store(props) {
       active: true,
       host: "",
       roomID: "",
-      playerID: ""
+      playerID: "",
+      messages: {
+        thread: [],
+        unread: false
+      },
     },
     offline: {
       active: false,

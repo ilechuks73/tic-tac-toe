@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useStyles } from './styles'
 import { useGameState, useNavigation } from "../../hooks";
 
+import Chat from '../Chat'
 import { PlayersSection, SpectatorsSection } from "./components";
 
 import {
@@ -21,10 +22,11 @@ function LobbyScreen() {
 
   return (
     <MuiGrid className={classes.LobbyScreen}>
-
+      
       <Grow in={gameState.screens.lobbyScreen} timeout={800} unmountOnExit>
-
+        
         <MuiGrid>
+          
           <MuiGrid container={true} justify={"center"} alignItems={"center"}>
             <MuiGrid xs={9} item={true}>
               <MuiTypography variant={"h5"}>{`Room ID: ${gameState.online.roomID}`}</MuiTypography>
@@ -57,6 +59,7 @@ function LobbyScreen() {
               }
             </MuiGrid>
           </MuiGrid>
+          <Chat/>
         </MuiGrid>
       </Grow>
 

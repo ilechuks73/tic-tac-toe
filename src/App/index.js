@@ -1,4 +1,4 @@
-import { GameScreen, WelcomeScreen, LobbyScreen } from "./components";
+import { GameScreen, WelcomeScreen, LobbyScreen, Chat } from "./components";
 import Store from "./state/store";
 
 function App() {

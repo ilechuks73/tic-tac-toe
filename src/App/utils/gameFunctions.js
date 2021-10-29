@@ -1,3 +1,5 @@
+import { YouTube } from "@material-ui/icons";
+
 export function handleCreateRoom() {
 
 }
@@ -9,10 +11,10 @@ export function handleJoinRoom(gameState, setGameState, params) {
   })
   setTimeout(() => {
     setGameState({
-    type: "GO TO LOBBYSCREEN"
-  })
+      type: "GO TO LOBBYSCREEN"
+    })
   }, 200);
-  
+
   gameState.online.webSocket.emit("joinRoom", {
     roomID: params.roomID,
     playerName: params.playerName
@@ -99,11 +101,23 @@ function handleUpdateScore(gameState, setGameState, letter) {
   })
 }
 
-export function handleResetGameBoard(gameState){
+export function handleResetGameBoard(gameState) {
   const state = gameState
 
   state.board.state = []
   for (let i = 0; i < Math.pow(state.board.size, 2); i++) {
     state.board.state.push("")
   }
+}
+
+export function handleSendMessage(gameState, setGameState, params) {
+  const state = gameState
+  setGameState({
+    type: "NEW MESSAGE",
+    payload: {
+      sender: "you",
+      message: params
+    }
+  })
+  state.online.webSocket.emit('message', { sender: gameState.players.player1.name, content: params, roomID: state.online.roomID })
 }

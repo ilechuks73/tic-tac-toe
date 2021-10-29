@@ -52,8 +52,14 @@ export function useWebSocket() {
       })
     })
 
-    webSocket.on("test", () => {
-      alert("test")
+    webSocket.on("message", (data) => {
+      setGameState({
+        type: "NEW MESSAGE",
+        payload: {
+          sender: data.sender,
+          message: data.content,
+        }
+      })
     })
   }
 

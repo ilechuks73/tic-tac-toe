@@ -1,0 +1,51 @@
+#ChatScreen{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(255, 255, 255);
+  width: 300px;
+  height: 300px;
+  z-index: 23;
+  box-sizing: border-box;
+  border-radius: 6px;
+  overflow-y: scroll;
+}
+
+.header{
+  display: flex;
+  padding: 5px 10px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f50057;
+}
+
+#MessageInput{
+  display: flex;
+  padding: 0 10px;
+}
+
+#MessageThread{
+  padding: 0 10px;
+}
+
+#Message{
+  height: max-content;
+  margin-top: 10px;
+}
+
+#Message .senderTag{
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+  padding: 1px 3px ;
+  width: min-content;
+  height: min-content;
+  background-color: #f50057;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+#Message .messageBody{
+  font-size: 14px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

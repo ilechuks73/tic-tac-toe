@@ -1,5 +1,6 @@
 
 import Cells from "./components/Cell";
+import Chat from "../Chat";
 
 import { useStyles } from "./styles";
 
@@ -27,8 +28,9 @@ function GameScreen() {
           <MuiGrid container justify={"center"}>
             <Board />
           </MuiGrid>
-
+          <Chat />
         </MuiGrid>
+
       </Grow>
 
     </MuiGrid>
@@ -41,8 +43,7 @@ export default GameScreen
 function Header() {
   const classes = useStyles()
   const { gameState, leaveGame } = useGameState()
-  const {goToWelcomeScreen} = useNavigation()
-  
+
   return (
     <MuiGrid className={classes.Header} container={true} justify={"space-around"} alignItems={"center"}>
       <MuiGrid>
@@ -60,7 +61,7 @@ function Header() {
         </MuiGrid>
       </MuiGrid>
       <MuiGrid>
-        <MuiButton color={"secondary"} variant={"contained"} onClick={()=>{
+        <MuiButton color={"secondary"} variant={"contained"} onClick={() => {
           leaveGame()
         }}>Leave</MuiButton>
       </MuiGrid>
@@ -91,7 +92,7 @@ function Board() {
 function Footer() {
   return (
     <div>
-      
+
     </div>
   )
 }

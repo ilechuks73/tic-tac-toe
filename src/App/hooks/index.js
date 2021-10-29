@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { requestRoomID, createRoom as requestCreateRoom } from "../utils/apiRequest";
 import { GameContext } from "../state/context";
-import { handlePlay, handleJoinRoom } from "../utils/gameFunctions";
+import { handlePlay, handleJoinRoom, handleSendMessage } from "../utils/gameFunctions";
 
 export function useGameState() {
   const { gameState, setGameState } = useContext(GameContext);
@@ -77,9 +77,11 @@ export function useGameState() {
     setGameState({
       type: "GO TO WELCOMESCREEN"
     });
-
   }
 
+  function sendMessage(params) {
+    handleSendMessage(gameState, setGameState, params)
+  }
   return {
     createRoom,
     joinRoom,
@@ -88,7 +90,8 @@ export function useGameState() {
     play,
     startGame,
     leaveGame,
-    gameState
+    gameState,
+    sendMessage
   };
 };
 

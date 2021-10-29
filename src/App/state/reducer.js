@@ -1,7 +1,7 @@
 export function GameReducer(state, { type, payload }) {
 
   switch (type) {
-    
+
     case "START GAME":
       state.active = true
 
@@ -63,6 +63,17 @@ export function GameReducer(state, { type, payload }) {
       state = payload.letter;
       return state;
 
+    //----CHAT------//
+    case "NEW MESSAGE":
+      state.online.messages.thread.unshift(payload)
+      state.online.messages.unread = true
+    return { ...state }
+
+    case "VIEW MESSAGES":
+      state.online.messages.unread = false
+    return {...state}
+
+
 
     //---NAVIGATION---//
 
@@ -91,7 +102,7 @@ export function GameReducer(state, { type, payload }) {
       return { ...state };
 
     case "UPDATE STATE":
-      return {...payload }
+      return { ...payload }
 
     default:
       return state;
