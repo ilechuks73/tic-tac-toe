@@ -62,13 +62,8 @@ export function useGameState() {
   }
 
   function play(index) {
-    if (gameState.turn.active) {
-      handlePlay(gameState, setGameState, index)
-      gameState.online.webSocket.emit("play", { roomID: gameState.online.roomID, index: index })
-    }
-    else {
-      alert("not your turn")
-    }
+    handlePlay(gameState, setGameState, index)
+    
 
   }
 

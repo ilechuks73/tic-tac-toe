@@ -26,19 +26,29 @@ export function handleStartGame() {
 }
 
 export function handlePlay(gameState, setGameState, index) {
-  setGameState({
-    type: "PLAY",
-    payload: {
-      index: index,
-      letter: gameState.turn.letter
+  if (gameState.turn.active) {
+    if(gameState.board.state[index]===""){
+      setGameState({
+        type: "PLAY",
+        payload: {
+          index: index,
+          letter: gameState.turn.letter
+        }
+      })
+      setTimeout(() => {
+        handleCheckForWin(gameState, setGameState, gameState.turn.letter)
+        handleCheckForDraw(gameState)
+        handleSwitchTurn(setGameState)
+      }, 100);
+      gameState.online.webSocket.emit("play", { roomID: gameState.online.roomID, index: index })
     }
-  })
-  setTimeout(() => {
-    handleCheckForWin(gameState, setGameState, gameState.turn.letter)
-    handleCheckForDraw(gameState)
-    handleSwitchTurn(setGameState)
-  }, 100);
-
+    else{
+      alert("can't play there")
+    }
+  }
+  else {
+    alert("not your turn")
+  }
 }
 
 export function handleSwitchTurn(setGameState) {
