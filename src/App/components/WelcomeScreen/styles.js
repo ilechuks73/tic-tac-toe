@@ -12,7 +12,7 @@ export const useStyles = makeStyles({
       "& > div":{
         backgroundColor: "white",
         height: "max-content",
-        padding: "30px 20px"
+        padding: "10px 20px"
       }
     }
   }

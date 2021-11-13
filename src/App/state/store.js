@@ -54,6 +54,12 @@ function Store(props) {
       welcomeScreen: true,
       lobbyScreen: false,
       gameScreen: false
+    },
+    modal: {
+      open: false,
+      title: "test title",
+      message: "this is a test message",
+      buttonAction: ['closeModal()']
     }
   };
   const [gameState, setGameState] = useReducer(GameReducer, initialGameState);

@@ -1,4 +1,4 @@
-import { GameScreen, WelcomeScreen, LobbyScreen, Chat } from "./components";
+import { GameScreen, WelcomeScreen, LobbyScreen, Chat, Modal, Notification } from "./components";
 import Store from "./state/store";
 
 function App() {
@@ -8,6 +8,8 @@ function App() {
         <WelcomeScreen />
         <LobbyScreen />
         <GameScreen />
+        <Modal />
+        {/* <Notification /> */}
       </Store>
     </div>
   );

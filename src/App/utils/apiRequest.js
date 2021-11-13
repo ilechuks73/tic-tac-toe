@@ -19,7 +19,7 @@ export function createRoom(params) {
 
 export function requestRoomID() {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/requestRoomID`)
+    fetch(`${baseURL}/createRoom`)
       .then((res) => resolve(res.json()))
       .catch((err) => reject(err));
   })

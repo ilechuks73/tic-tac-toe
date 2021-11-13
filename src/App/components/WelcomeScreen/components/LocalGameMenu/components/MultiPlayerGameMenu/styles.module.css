@@ -1,0 +1,27 @@
+.d000{
+  display: flex;
+  align-items: center;
+  
+}
+
+.p000{
+  padding-right: 10px;
+}
+
+.p001{
+  padding-right: 8px;
+}
+
+.d001{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.d004{
+  margin: 10px 0;
+}
+
+.i000{
+  width: 100%;
+}

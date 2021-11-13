@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { useGameState, useNavigation } from "../../../../../../hooks";
-import { useStyles } from "./styles";
+import styles from './styles.module.css'
 
 import {
   Typography as MuiTypography,
@@ -25,14 +25,13 @@ import {
 
 export default function CreateRoomMenu({ serverReachable }) {
   
-  const classes = useStyles()
   const { goToLobbyScreen } = useNavigation()
   const {gameState, createRoom} = useGameState()
   const [formState, setFormState] = useState({})
 
   return (
-    <MuiGrid className={classes.CreateRoomMenu}>
-      <MuiGrid>
+    <MuiGrid>
+      <MuiGrid className={styles.div001}>
         <MuiTextField
           size={"small"}
           variant={"outlined"}
@@ -42,7 +41,7 @@ export default function CreateRoomMenu({ serverReachable }) {
           }}
         />
       </MuiGrid>
-      <MuiGrid>
+      <MuiGrid className={styles.div000}>
         <MuiTextField
           variant="outlined"
           type="number"
@@ -59,6 +58,10 @@ export default function CreateRoomMenu({ serverReachable }) {
         }}  >
           Create Room
         </MuiButton>
+        {
+          serverReachable ? "" : <MuiTypography className={styles.span000} variant={"span"}>You may be Offline!</MuiTypography>
+        }
+        
       </MuiGrid>
     </MuiGrid>
   );

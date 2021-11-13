@@ -50,6 +50,7 @@ export function useWebSocket() {
       setGameState({
         type: "GO TO WELCOMESCREEN"
       })
+      window.location.reload()
     })
 
     webSocket.on("message", (data) => {

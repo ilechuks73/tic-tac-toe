@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { requestRoomID, createRoom as requestCreateRoom } from "../utils/apiRequest";
 import { GameContext } from "../state/context";
-import { handlePlay, handleJoinRoom, handleSendMessage } from "../utils/gameFunctions";
+import { handlePlay, handleJoinRoom, handleSendMessage, handleOpenModal, handleCloseModal } from "../utils/gameFunctions";
 
 export function useGameState() {
   const { gameState, setGameState } = useContext(GameContext);
@@ -46,6 +46,7 @@ export function useGameState() {
 
   function joinRoom(params) {
     handleJoinRoom(gameState, setGameState, params)
+    
 
   }
 
@@ -62,8 +63,14 @@ export function useGameState() {
   }
 
   function play(index) {
-    handlePlay(gameState, setGameState, index)
     
+    if (gameState.turn.active) {
+      handlePlay(gameState, setGameState, index)
+      gameState.online.webSocket.emit("play", { roomID: gameState.online.roomID, index: index })
+    }
+    else {
+      alert("not your turn")
+    }
 
   }
 
@@ -72,10 +79,19 @@ export function useGameState() {
     setGameState({
       type: "GO TO WELCOMESCREEN"
     });
+    window.location.reload()
   }
 
   function sendMessage(params) {
     handleSendMessage(gameState, setGameState, params)
+  }
+  
+  function openModal (){
+    handleOpenModal(gameState, setGameState)
+  }
+
+  function closeModal(){
+    handleCloseModal(gameState, setGameState)
   }
   return {
     createRoom,
@@ -86,7 +102,8 @@ export function useGameState() {
     startGame,
     leaveGame,
     gameState,
-    sendMessage
+    sendMessage,
+    closeModal
   };
 };
 

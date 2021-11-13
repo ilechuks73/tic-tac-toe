@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { useGameState, useNavigation } from "../../../../../../hooks";
-import { useStyles } from "./styles";
+import styles from './styles.module.css'
+
 
 import {
   Typography as MuiTypography,
@@ -23,20 +24,41 @@ import {
 } from "@material-ui/core";
 
 export default function MultiplayerGameMenu() {
-  const classes = useStyles()
-  const {goToLobbyScreen} = useNavigation()
+  const { goToLobbyScreen } = useNavigation()
   return (
-    <MuiGrid className={classes.MultiPlayerGameMenu}>
+    <MuiGrid className={styles.MultiPlayerGameMenu}>
       <MuiGrid>
-        <MuiTextField
-          variant="outlined"
-          type="number"
-          label="select number of rows"
-          inputProps={{ min: "1", max: "5" }}
-        />
+        <MuiGrid className={styles.d000}>
+          <MuiTypography className={styles.p000}>X</MuiTypography>
+          <MuiTextField
+            variant="outlined"
+            size={"small"}
+            label="enter player name"
+          />
+        </MuiGrid>
+        <MuiGrid className={styles.d001}>
+          <MuiTypography className={styles.p001}>O</MuiTypography>
+          <MuiTextField
+            variant="outlined"
+            size={"small"}
+            label="enter player name"
+            inputProps={{ min: "1", max: "5" }}
+          />
+        </MuiGrid>
+        <MuiGrid className={styles.d004}>
+          <MuiTextField
+          className = {styles.i000}
+            variant="outlined"
+            size={"small"}
+            type="number"
+            label="select number of rows"
+            inputProps={{ min: "1", max: "5" }}
+          />
+        </MuiGrid>
+
       </MuiGrid>
       <MuiGrid>
-        <MuiButton variant={"outlined"} onClick={()=>{
+        <MuiButton variant={"outlined"} onClick={() => {
           goToLobbyScreen()
         }}>
           Play

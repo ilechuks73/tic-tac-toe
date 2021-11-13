@@ -26,28 +26,23 @@ export function handleStartGame() {
 }
 
 export function handlePlay(gameState, setGameState, index) {
-  if (gameState.turn.active) {
-    if(gameState.board.state[index]===""){
-      setGameState({
-        type: "PLAY",
-        payload: {
-          index: index,
-          letter: gameState.turn.letter
-        }
-      })
-      setTimeout(() => {
-        handleCheckForWin(gameState, setGameState, gameState.turn.letter)
-        handleCheckForDraw(gameState)
-        handleSwitchTurn(setGameState)
-      }, 100);
-      gameState.online.webSocket.emit("play", { roomID: gameState.online.roomID, index: index })
-    }
-    else{
-      alert("can't play there")
-    }
+  if (gameState.board.state[index] === "") {
+    setGameState({
+      type: "PLAY",
+      payload: {
+        index: index,
+        letter: gameState.turn.letter
+      }
+    })
+    setTimeout(() => {
+      handleCheckForWin(gameState, setGameState, gameState.turn.letter)
+      handleCheckForDraw(gameState)
+      handleSwitchTurn(setGameState)
+    }, 100);
+
   }
   else {
-    alert("not your turn")
+    //alert("can't play there")
   }
 }
 
@@ -70,7 +65,6 @@ export function handleCheckForWin(gameState, setGameState, letter) {
       return true
     });
     if (winArray.length === 3) {
-      alert(letter + " wins")
       handleUpdateScore(gameState, setGameState, letter)
       handleResetGameBoard(gameState)
       winArray = []
@@ -130,4 +124,22 @@ export function handleSendMessage(gameState, setGameState, params) {
     }
   })
   state.online.webSocket.emit('message', { sender: gameState.players.player1.name, content: params, roomID: state.online.roomID })
+}
+
+export function handleOpenModal(gameState, setGameState) {
+  const state = gameState
+  state.modal.open = true
+  setGameState({
+    type: 'UPDATE STATE',
+    payload: state
+  })
+}
+
+export function handleCloseModal(gameState, setGameState) {
+  const state = gameState
+  state.modal.open = false
+  setGameState({
+    type: 'UPDATE STATE',
+    payload: state
+  })
 }

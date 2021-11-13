@@ -41,17 +41,6 @@ export default function WelcomeScreen() {
       <Fade in={gameState.screens.welcomeScreen} unmountOnExit>
         <MuiGrid container={true} alignContent={"center"} justify={"center"} >
           <MuiGrid xs={8} sm={6} md={5} lg={4} xl={3} item={true}>
-            <MuiGrid container={true}>
-              <MuiGrid xs={6} item>
-                <MuiTypography align={"center"}>TIC</MuiTypography>
-              </MuiGrid>
-              <MuiGrid xs={6} item>
-                <MuiTypography align={"center"}>TAC</MuiTypography>
-              </MuiGrid>
-              <MuiGrid xs={12} item={true}>
-                <MuiTypography align={"center"}>TOE</MuiTypography>
-              </MuiGrid>
-            </MuiGrid>
             <MuiGrid xs={12} item>
               <MuiTabs value={tabValues} centered>
                 <MuiTab
