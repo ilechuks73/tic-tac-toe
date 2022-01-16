@@ -8,7 +8,6 @@ export function createRoom(params) {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        roomID: params.roomID,
         playerName: params.playerName
       }),
     })
@@ -16,14 +15,6 @@ export function createRoom(params) {
       .catch((err) => reject(err));
   });
 };
-
-export function requestRoomID() {
-  return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/createRoom`)
-      .then((res) => resolve(res.json()))
-      .catch((err) => reject(err));
-  })
-}
 
 export function testConnection() {
   return new Promise((resolve, reject) => {
@@ -38,4 +29,8 @@ export function testConnection() {
       })
       .catch((err) => reject(err))
   })
+}
+
+export function requestChechRoom (){
+  
 }

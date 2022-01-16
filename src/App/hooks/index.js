@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { requestRoomID, createRoom as requestCreateRoom } from "../utils/apiRequest";
+import { createRoom as requestCreateRoom } from "../utils/apiRequest";
 import { GameContext } from "../state/context";
 import { handlePlay, handleJoinRoom, handleSendMessage, handleOpenModal, handleCloseModal } from "../utils/gameFunctions";
 
@@ -20,7 +20,7 @@ export function useGameState() {
   }
 
   function createRoom(params) {
-    requestRoomID()
+    requestCreateRoom(params)
       .then((data) => {
         if (data.error === true) {
           alert('OOPS! No available rooms, try again later')
@@ -31,10 +31,10 @@ export function useGameState() {
             type: "CREATE ROOM",
             payload: params
           })
-          gameState.online.webSocket.emit("createRoom", {
-            roomID: data.roomID.toString(),
-            playerName: params.playerName.toString()
-          })
+          // gameState.online.webSocket.emit("createRoom", {
+          //   roomID: data.roomID.toString(),
+          //   playerName: params.playerName.toString()
+          // })
           setGameState({
             type: "GO TO LOBBYSCREEN",
             payload: params
