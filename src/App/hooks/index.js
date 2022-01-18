@@ -31,10 +31,10 @@ export function useGameState() {
             type: "CREATE ROOM",
             payload: params
           })
-          // gameState.online.webSocket.emit("createRoom", {
-          //   roomID: data.roomID.toString(),
-          //   playerName: params.playerName.toString()
-          // })
+          gameState.online.webSocket.emit("createRoom", {
+            roomID: data.roomID.toString(),
+            playerName: params.playerName.toString()
+          })
           setGameState({
             type: "GO TO LOBBYSCREEN",
             payload: params
@@ -46,7 +46,7 @@ export function useGameState() {
 
   function joinRoom(params) {
     handleJoinRoom(gameState, setGameState, params)
-    
+
 
   }
 
@@ -63,7 +63,7 @@ export function useGameState() {
   }
 
   function play(index) {
-    
+
     if (gameState.turn.active) {
       handlePlay(gameState, setGameState, index)
       gameState.online.webSocket.emit("play", { roomID: gameState.online.roomID, index: index })
@@ -85,12 +85,12 @@ export function useGameState() {
   function sendMessage(params) {
     handleSendMessage(gameState, setGameState, params)
   }
-  
-  function openModal (){
+
+  function openModal() {
     handleOpenModal(gameState, setGameState)
   }
 
-  function closeModal(){
+  function closeModal() {
     handleCloseModal(gameState, setGameState)
   }
   return {
